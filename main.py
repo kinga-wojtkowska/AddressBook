@@ -15,36 +15,31 @@ class BaseContact:
                 return txt
         for i in address:
             if (i.name + ' ' + i.surname) in contact:
-                txt = "“Wybieram numer: {} i dzwonię do {} {}".format(i.phone, i.name, i.surname)
+                txt = "Wybieram numer {} i dzwonię do {} {}".format(i.contact_phone, i.name, i.surname)
                 return txt
             else:
                 pass
-    
     @property
     def label_length(self):
         return len(self.name) + len(self.surname) + 1
+
+    @property
+    def contact_phone(self):
+        return self.bus_phone
                 
 class BusinessContact(BaseContact):
     def __init__(self, company, occupation, bus_phone, *args):
-       super().__init__(*args)
-       self.company = company
-       self.occupation = occupation
-       self.bus_phone = bus_phone
+        super().__init__(*args)
+        self.company = company
+        self.occupation = occupation
+        self.bus_phone = bus_phone
 
     def __str__(self):
         return ("{} {} {} {} {}, {} {}".format(self.name, self.surname, self.phone, self.email, self.company, self.occupation, self.bus_phone))
     
-    def contact(self, name, surname):
-        contact = [(i.name + ' ' + i.surname) for i in address if (name == i.name and surname == i.surname)]
-        if len(contact) == 0:
-                txt = "Osoba o podanych danych nie widnieje w Twojej książce adresowej"
-                return txt
-        for i in address:
-            if (i.name + ' ' + i.surname) in contact:
-                txt = "“Wybieram numer służbowy: {} i dzwonię do {} {}".format(i.bus_phone, i.name, i.surname)
-                return txt
-            else:
-                pass
+    @property
+    def contact_phone(self):
+        return self.bus_phone
 
 def create_contacts(classid, number):
     from faker import Faker
