@@ -25,7 +25,7 @@ class BaseContact:
 
     @property
     def contact_phone(self):
-        return self.bus_phone
+        return self.phone
                 
 class BusinessContact(BaseContact):
     def __init__(self, company, occupation, bus_phone, *args):
