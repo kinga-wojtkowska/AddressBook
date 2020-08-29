@@ -8,12 +8,10 @@ class BaseContact:
     def __str__(self):
         return ("{} {} {} {}".format(self.name, self.surname, self.phone, self.email))
 
-    def contact(name, surname):
-        for i in address:
-            if (name == i.name and surname == i.surname):
-                return f"Wybieram numer {i.contact_phone} i dzwonię do {i.name} {i.surname}"
-            else:
-                pass
+    def contact(number):
+        n = number - 1
+        l = by_surname[n]
+        return f"Wybieram numer {l.contact_phone} i dzwonię do {l.name} {l.surname}"
             
     @property
     def label_length(self):
@@ -48,8 +46,10 @@ def create_contacts(classid, number):
             address.append(classid(fake.company(), fake.job(), fake.phone_number(), fake.first_name(), fake.last_name(), fake.phone_number(), fake.email()))
 
 def fullshow():
-    for i in address:
-        print(i)            
+    n = 1
+    for i in by_surname:
+        print(n, i.surname, i.name, i.email)
+        n += 1          
 
 address=[]       
 address.append(BusinessContact('Muscle Factory', 'Oral and maxillofacial radiologist', '+48-735-5518-27', 'Jowita', 'Zawadzka', '+48-515-5551-66', 'JowitaZawadzka@armyspy.com'))
