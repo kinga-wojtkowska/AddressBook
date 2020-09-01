@@ -1,3 +1,5 @@
+from faker import Faker
+
 class BaseContact:
     def __init__(self, name, surname, phone, email):
         self.name = name
@@ -8,10 +10,8 @@ class BaseContact:
     def __str__(self):
         return ("{} {} {} {}".format(self.name, self.surname, self.phone, self.email))
 
-    def contact(number):
-        n = number - 1
-        l = by_surname[n]
-        return f"Wybieram numer {l.contact_phone} i dzwonię do {l.name} {l.surname}"
+    def contact(self):
+        return f"Wybieram numer {self.contact_phone} i dzwonię do {self.name} {self.surname}"
             
     @property
     def label_length(self):
@@ -36,7 +36,6 @@ class BusinessContact(BaseContact):
         return self.bus_phone
 
 def create_contacts(classid, number):
-    from faker import Faker
     fake = Faker('pl_PL')
 
     for x in range(number+1):
@@ -46,10 +45,19 @@ def create_contacts(classid, number):
             address.append(classid(fake.company(), fake.job(), fake.phone_number(), fake.first_name(), fake.last_name(), fake.phone_number(), fake.email()))
 
 def fullshow():
+    by_surname = sorted(address, key=lambda person: person.surname)
     n = 1
+    print('number', 'surname', 'name', 'email')
     for i in by_surname:
-        print(n, i.surname, i.name, i.email)
-        n += 1          
+        print(n, i.surname, i.name, i.email, i.contact_phone)
+        n += 1
+
+def contact(name, surname):
+    for i, j in enumerate(address):
+        l = address[i]
+        if name == l.name and surname == l.surname:
+            person = address[i]
+            print(person.contact())
 
 address=[]       
 address.append(BusinessContact('Muscle Factory', 'Oral and maxillofacial radiologist', '+48-735-5518-27', 'Jowita', 'Zawadzka', '+48-515-5551-66', 'JowitaZawadzka@armyspy.com'))
@@ -63,3 +71,6 @@ address.append(BaseContact('Marek', 'Górecki', '+48-321-6123-22', 'MarekGorecki
 by_name = sorted(address, key=lambda person: person.name)
 by_surname = sorted(address, key=lambda person: person.surname)
 by_email = sorted(address, key=lambda person: person.email)
+
+if __name__ == "__main__":
+    fullshow()
